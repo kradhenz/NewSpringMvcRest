@@ -1,0 +1,12 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Change') {
+            steps {
+                echo 'No Changes'
+                git branch: 'main', url: 'https://github.com/kradhenz/NewSpringMvcRest.git'
+            }
+        }
+    }
+}
