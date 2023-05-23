@@ -5,6 +5,7 @@ pipeline {
         stage('Change') {
             steps {
                 echo 'No Changes'
+                echo 'Change 1'
                 git branch: 'main', url: 'https://github.com/kradhenz/NewSpringMvcRest.git'
             }
         }
