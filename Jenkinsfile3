@@ -12,7 +12,7 @@ pipeline {
 
         stage("Publish to Nexus Repository Manager") {
             steps {
-                echo "target/.${pom.packaging}"
+                echo "target/"
                 script {
                     
                     pom = readMavenPom file: "pom.xml";
