@@ -2,19 +2,21 @@ pipeline {
     agent any
         
     stages {
+        stage('Start') { 
+            steps {
+                echo "This is the start"
+            }
+        }
+        
         stage('Build') {
             steps {
                 sh 'mvn -DskipTests clean package'
-                sh 'mvn --version'
-
             }
         }
-
+        
         stage("Publish to Nexus Repository Manager") {
             steps {
-                echo "target"
                 script {
-                    
                     pom = readMavenPom file: "pom.xml";
                     filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
                     echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
@@ -25,7 +27,7 @@ pipeline {
                         nexusArtifactUploader(
                             nexusVersion: "nexus3",
                             protocol: "http",
-                            nexusUrl: "192.168.1.154:8081",
+                            nexusUrl: "localhost:8081",
                             groupId: pom.groupId,
                             version: pom.version,
                             repository: "TestRepository",
@@ -40,10 +42,33 @@ pipeline {
                     } else {
                         error "* File: ${artifactPath}, could not be found";
                     }
-                }          }
+                }          
+            }
 
-            } 
+        } 
+
+        stage('Test') { 
+            steps {
+                sh 'mvn clean verify' 
+            }
+        }
+
+        stage('SonarQube analysis') {
+            environment {
+                SCANNER_HOME = tool 'SonarQube Conection'
+            }
+            steps {
+                withSonarQubeEnv(credentialsId: 'SecretTextContent', installationName: 'SonarQube Conection') {
+                    sh '''$SCANNER_HOME/bin/sonar-scanner \
+                    -Dsonar.projectKey=Exercise6 \
+                    -Dsonar.projectName=Exercise6 \
+                    -Dsonar.sources=src/ \
+                    -Dsonar.java.binaries=target/classes/ \
+                    -Dsonar.exclusions=src/test/java/****/*.java \
+                    -Dsonar.projectVersion=${BUILD_NUMBER}-${GIT_COMMIT_SHORT}'''
+                }
+            }
+        }
+
     }
- 
-
-   }
+}
