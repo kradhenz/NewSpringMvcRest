@@ -1,0 +1,57 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Start') { 
+            steps {
+                echo "This is the start"
+            }
+        }
+
+        stage('Build') { 
+            steps {
+                sh 'mvn -B package' 
+                // sh 'mvn -B -DskipTests clean package' 
+            }
+        }
+
+        stage('Test') { 
+            steps {
+                sh 'mvn clean verify' 
+            }
+        }
+
+        stage('SonarQube analysis') {
+            environment {
+                SCANNER_HOME = tool 'SonarQube Conection'
+            }
+            steps {
+                withSonarQubeEnv(credentialsId: 'SecretTextContent', installationName: 'SonarQube Conection') {
+                    sh '''$SCANNER_HOME/bin/sonar-scanner \
+                    -Dsonar.projectKey=Exercise6 \
+                    -Dsonar.projectName=Exercise6 \
+                    -Dsonar.sources=src/ \
+                    -Dsonar.java.binaries=target/classes/ \
+                    -Dsonar.exclusions=src/test/java/****/*.java \
+                    -Dsonar.projectVersion=${BUILD_NUMBER}-${GIT_COMMIT_SHORT}'''
+                }
+            }
+        }
+    }
+
+    post {
+        always{
+            slackSend( channel: "#fundamentos-de-devops", token: "TF9ym1sVzl8DeZprbszbwejf", color: "good", message: "Test Tomás")
+                      
+        }
+    }
+
+    def custom_msg() {
+        def JENKINS_URL= "localhost:8080"
+        def JOB_NAME = env.JOB_NAME
+        def BUILD_ID= env.BUILD_ID
+        def JENKINS_LOG= " FAILED: Job [${env.JOB_NAME}] Logs path: ${JENKINS_URL}/job/${JOB_NAME}/${BUILD_ID}/consoleText"
+        return JENKINS_LOG
+    }
+
+}
