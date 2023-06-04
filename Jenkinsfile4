@@ -40,13 +40,13 @@ pipeline {
     }
 
     post {
-        always{
+        /*always{
             slackSend( channel: "#fundamentos-de-devops", token: "TF9ym1sVzl8DeZprbszbwejf", color: "good", message: "Tomas Test Ex7 :coffee:")
           
-        }
+        }*/
 
         success {
-            discordSend( description: "Testing Jenkins Pipeline", notes: "@everyone :thumbsup: :wave:", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, webhookURL: "https://discord.com/api/webhooks/1113167025523671131/6sd5reg5vDMomX1Tt2SYlfLuehdVDW4rwkgM6_rqB-6MwOxop48IxnWyJYShsMR2Nwxp")
+            discordSend( title: "Testing Jenkins Pipeline", notes: "@everyone :thumbsup: :wave:", thumbnail: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Jenkins_logo.svg/1200px-Jenkins_logo.svg.png", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, webhookURL: "https://discord.com/api/webhooks/1113167025523671131/6sd5reg5vDMomX1Tt2SYlfLuehdVDW4rwkgM6_rqB-6MwOxop48IxnWyJYShsMR2Nwxp")
 
         }
     }
