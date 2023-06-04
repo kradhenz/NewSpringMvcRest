@@ -1,4 +1,4 @@
-pipeline {
+kpipeline {
     agent any
 
     stages {
@@ -41,17 +41,12 @@ pipeline {
 
     post {
         always{
-            slackSend( 
-                channel: "#fundamentos-de-devops", token: "TF9ym1sVzl8DeZprbszbwejf", color: "good", message: "Tomas Test: Ex7"
-            )
+             slackSend( channel: "#fundamentos-de-devops", token: "TF9ym1sVzl8DeZprbszbwejf", color: "good", message: "Tomas Test Ex7 :coffee:")
           
         }
 
         success {
-            discordSend( 
-                description: "Testing Jenkins Pipeline", notes: "@everyone", link: env.BUILD_URL, result: currentBuild.currentResultIsBetterOrEqualTo('SUCCESS'), title: JOB_NAME, 
-                webhookURL: "https://discord.com/api/webhooks/1113167025523671131/6sd5reg5vDMomX1Tt2SYlfLuehdVDW4rwkgM6_rqB-6MwOxop48IxnWyJYShsMR2Nwxp"
-            )
+            discordSend( description: "Testing Jenkins Pipeline", notes: "@everyone :wave: :thumbsup:", link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, webhookURL: "https://discord.com/api/webhooks/1113167025523671131/6sd5reg5vDMomX1Tt2SYlfLuehdVDW4rwkgM6_rqB-6MwOxop48IxnWyJYShsMR2Nwxp")
 
         }
     }
