@@ -42,10 +42,10 @@ pipeline {
     post {
         always{
             slackSend( channel: "#fundamentos-de-devops", token: "TF9ym1sVzl8DeZprbszbwejf", color: "good", message: "Test Tomás")
-                      
+          
         }
 
-        always{
+        succes {
             discordSend description: "Jenkins Pipeline Build", footer: "Test", link: env.BUILD_URL, result: currentBuild.currentResult, title: PL_M03_L6, webhookURL: "https://discord.com/api/webhooks/1113167025523671131/6sd5reg5vDMomX1Tt2SYlfLuehdVDW4rwkgM6_rqB-6MwOxop48IxnWyJYShsMR2Nwxp"
 
         }
