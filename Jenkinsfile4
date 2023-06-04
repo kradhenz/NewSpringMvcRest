@@ -46,7 +46,7 @@ pipeline {
         }*/
 
         success {
-            discordSend( description: "Testing Jenkins Pipeline", notes: "@everyone :thumbsup: :wave:", thumbnail: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Jenkins_logo.svg/1200px-Jenkins_logo.svg.png", showChangeset: 1, link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, webhookURL: "https://discord.com/api/webhooks/1113167025523671131/6sd5reg5vDMomX1Tt2SYlfLuehdVDW4rwkgM6_rqB-6MwOxop48IxnWyJYShsMR2Nwxp")
+            discordSend( description: "Testing Jenkins Pipeline", notes: "@everyone :thumbsup: :wave:", thumbnail: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Jenkins_logo.svg/1200px-Jenkins_logo.svg.png", showChangeset: true, link: env.BUILD_URL, result: currentBuild.currentResult, title: JOB_NAME, webhookURL: "https://discord.com/api/webhooks/1113167025523671131/6sd5reg5vDMomX1Tt2SYlfLuehdVDW4rwkgM6_rqB-6MwOxop48IxnWyJYShsMR2Nwxp")
 
         }
     }
